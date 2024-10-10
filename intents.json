@@ -14,6 +14,15 @@
                
         },
         {
+            "tag": "redirect",
+            "patterns": [
+                "yes",
+                "hospital",
+                "continuous sneezing, watering from eyes"
+            ],
+            "responses" : "Opening Google Maps for nearby hospitals..."
+        },
+        {
             "tag": "goodbye",
             "patterns": [
                 "Bye",

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediAid</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/botfav.jpg') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAL9I4wgDjfFYYVHywa9zooEJpYSrlGbk&libraries=places"></script>
+    <style>
+
+        
+        #map {
+            height: 400px;
+            width: 100%;
+            display: none; /* Initially hidden */
+        }
+        .hospital-info {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none; /* Hidden by default */
+        }
+
+        #hospitalList {
+            margin: 10px 0;
+        }
+
+        #closeHospitalInfo {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        
+        body {
+            background-color: #f4f7fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .navbar {
+            background-color: #007bff;
+        }
+
+        .navbar-brand, .navbar-nav .nav-link {
+            color: white !important;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #343a40;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+            background-color: #ffffff;
+        }
+
+        .chatbox {
+            position: fixed;
+            
+            right: 20px;
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            display: none; /* Hide chatbox initially */
+            background-color: #ffffff;
+            z-index: 1000;
+        }
+
+        .chatbox__header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .chatbox__messages {
+            max-height: 200px; /* Set a max height for the messages area */
+            overflow-y: auto; /* Enable vertical scrolling */
+            display: flex;
+            flex-direction: column; /* Regular column order */
+            padding: 10px; /* Add some padding */
+        }
+
+        .chatbox__footer input {
+            border-radius: 0;
+            border: none;
+            padding: 10px;
+            width: 80%;
+        }
+
+        .chatbox__footer button {
+            border-radius: 0;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+        }
+
+
+        .messages__item {
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+
+        .messages__item--visitor {
+            background-color: #e1f7d5;
+            text-align: left;
+        }
+
+        .messages__item--support {
+            background-color: #d9d9d9;
+            text-align: left;
+        }
+        .container {
+            display: flex;
+            overflow-x: auto;
+            width: 100vw;
+            height: 100vh;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory; /* For snapping scroll */
+        }
+
+        .container::-webkit-scrollbar {
+            height: 10px; /* Horizontal scrollbar height */
+        }
+
+        .container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .card {
+            flex: 0 0 33.33%; /* 3 divs shown by default */
+            
+            margin: 10px;
+            background-color: #82b8f2;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            transition: transform 0.3s ease;
+            scroll-snap-align: start; /* Snap to the start of each div */
+        }
+
+        .card:nth-child(2) {
+            background-color: #007bff;
+        }
+
+        .card:nth-child(3) {
+            background-color: #64d1ec;
+        }
+
+        .card:nth-child(4) {
+            background-color: #ffcc00;
+        }
+
+        .card:nth-child(5) {
+            background-color: #ff6600;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        /* Button styles */
+        .scroll-buttons {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .scroll-btn {
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .scroll-btn:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">MediAid</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
+                </ul>
+        </div>
+    </nav>
+
+    <h1>MediAid</h1>
+
+    <div class="container">
+        <div class="card">
+            <div class="chatbox__button">
+            <img src="./static/images/image1.png" alt="Medical Illustration" class="img-fluid">
+            </div>
+        </div>
+        <div class="card">Map</div>
+        <div class="card">History</div>
+        <div class="card">Doctors</div>
+        <div class="card">Health Article/Tip</div>
+    </div>
+    
+    <!-- Scroll buttons -->
+    <div class="scroll-buttons">
+        <button class="scroll-btn" id="scroll-left">←</button>
+        <button class="scroll-btn" id="scroll-right">→</button>
+    </div>
+ 
+    <div class="chatbox">
+        <div class="chatbox__header">
+            <h4>MediAid Symptom Checker</h4>
+        </div>
+        <div class="chatbox__messages" id="chatboxMessages">
+            <div class="messages__item messages__item--visitor">Hi, this is a medical chat support.</div>
+            <div class="messages__item messages__item--visitor">May I know your name?</div>
+        </div>
+        <div class="chatbox__footer">
+            <input type="text" id="messageInput" placeholder="Write a message...">
+            <button class="send__button" id="sendButton">Send</button>
+        </div>
+    </div>
+
+    
+    <div id="hospitalInfo" class="hospital-info" style="display:none;">
+        <h4>Nearby Hospitals:</h4>
+        <div id="hospitalList"></div>
+        <button id="closeHospitalInfo">Close</button>
+    </div>
+
+     <div id="map"></div>
+
+    
+
+    <footer class="footer">
+        <div class="contains text-center">
+            <h4>Contact us!</h4>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-facebook-square"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+            </div>
+            <hr class="my-4">
+            <div>
+                <span>Copyright © 2023 by Savvy.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            // Toggle chatbox visibility
+            $('.chatbox__button').click(function() {
+                $('.chatbox').toggle(); // Show or hide the chatbox
+            });
+
+            // Send button functionality
+            $('#sendButton').click(function() {
+                const message = $('#messageInput').val();
+                if (message.trim() !== "") {
+                    $('#chatboxMessages').append(`<div class="messages__item messages__item--visitor">${message}</div>`);
+                    $('#messageInput').val(''); // Clear the input
+
+                    $('.chatbox__messages').scrollTop($('.chatbox__messages')[0].scrollHeight);
+                }
+            });
+
+            const container = $('.container');
+    
+            // Scroll to the next set of divs
+            $('#scroll-right').on('click', function () {
+                container.animate({ scrollLeft: container.scrollLeft() + container.width() }, 600);
+            });
+    
+            // Scroll to the previous set of divs
+            $('#scroll-left').on('click', function () {
+                container.animate({ scrollLeft: container.scrollLeft() - container.width() }, 600);
+            });
+        });
+    </script>
+</body>
+</html>
