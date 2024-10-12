@@ -18,10 +18,11 @@
         #map {
             height: 400px;
             width: 100%;
-            display: none; /* Initially hidden */
+           
         }
-        .hospital-info {
+        .hospital_Map {
             position: fixed;
+            height: 400px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -31,6 +32,7 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
             display: none; /* Hidden by default */
+            width: 100%;
         }
 
         #hospitalList {
@@ -43,6 +45,7 @@
             border: none;
             padding: 10px 15px;
             cursor: pointer;
+            margin-bottom: 10px;
         }
         
         body {
@@ -73,9 +76,9 @@
             background-color: #ffffff;
         }
 
+
         .chatbox {
             position: fixed;
-            
             right: 20px;
             width: 300px;
             border-radius: 10px;
@@ -112,6 +115,15 @@
             padding: 10px;
             background-color: #007bff;
             color: white;
+        }
+
+        #bold {
+            background-color: #007bff;
+            border-radius: 15px;
+            display: block;
+            justify-content: center;
+            align-items: center;
+            
         }
 
 
@@ -231,10 +243,14 @@
     <div class="container">
         <div class="card">
             <div class="chatbox__button">
-            <img src="./static/images/image1.png" alt="Medical Illustration" class="img-fluid">
+                <img src="./static/images/image1.png" alt="Medical Illustration" class="img-fluid">
             </div>
         </div>
-        <div class="card">Map</div>
+        <div class="card"> map
+            <div class="mapping">
+                <img src="./static/images/image1.png" alt="Medical Illustration" class="img-fluid">
+            </div>
+        </div>
         <div class="card">History</div>
         <div class="card">Doctors</div>
         <div class="card">Health Article/Tip</div>
@@ -260,14 +276,19 @@
         </div>
     </div>
 
-    
-    <div id="hospitalInfo" class="hospital-info" style="display:none;">
-        <h4>Nearby Hospitals:</h4>
-        <div id="hospitalList"></div>
-        <button id="closeHospitalInfo">Close</button>
+    <div class="hospital_Map" id="hospitalMap">
+        main man match
+       
+        <div id="mapDiv" style="height: 300px;"></div>
     </div>
 
-     <div id="map"></div>
+    
+
+
+
+    <div id="bold">
+        man
+    </div>
 
     
 
@@ -294,6 +315,12 @@
                 $('.chatbox').toggle(); // Show or hide the chatbox
             });
 
+            $('.mapping').click(function() {
+                $('.hospital_Map').toggle(); // Show or hide the chatbox
+                
+            });
+
+           
             // Send button functionality
             $('#sendButton').click(function() {
                 const message = $('#messageInput').val();
