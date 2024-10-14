@@ -34,16 +34,6 @@
         },
 
         {
-            "tag": "work",
-            "patterns": [
-                "how do you work",
-                "what algorithm","algorithm use", "how your algorithm works"
-            ],
-            "responses": "Sorry I can't say that !!! If you realy want to know you can contact us"
-            
-        },
-
-        {
             "tag":"who",
             "patterns": [
                 "who are you","who you", "tell about  you", "describe","you", "what you", "can do", "what you do"
@@ -62,15 +52,7 @@
             ],
             "responses": "Happy to help! Any time you need ! "
         },
-        {
-            "tag": "joke",
-            "patterns": [
-                "Tell me a joke",
-                "Give me a joke",
-                "Share a joke"
-            ],
-            "responses": "Why did the doctor carry a red pen? In case they needed to draw blood!"
-        },
+
         {
             "tag": "Common Cold",
             "patterns": [

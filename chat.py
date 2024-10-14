@@ -61,7 +61,7 @@ def get_response(msg):
         # You can specify a location or use the user's current location here.
         location = "Opening Google Maps for nearby hospitals..."  # Example location
         open_google_maps(location)  # Call the Google Maps function
-        return ["redirect", location]
+        return ["redirect", location, "map"]
 
 
     X = bag_of_words(sentence, all_words)
