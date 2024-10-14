@@ -15,10 +15,10 @@
     <style>
 
         
-        #map {
-            height: 400px;
-            width: 100%;
-           
+        #mapDiv {
+            display: block; /* Set to block for testing */
+            height: 400px; /* Ensure height is set */
+            width: 100%; /* Ensure width is set */
         }
         .hospital_Map {
             position: fixed;
@@ -241,21 +241,27 @@
     <h1>MediAid</h1>
 
     <div class="container">
-        <div class="card">
+        <div class="card">Diagnosis Bot
             <div class="chatbox__button">
                 <img src="./static/images/image1.png" alt="Medical Illustration" class="img-fluid">
             </div>
         </div>
-        <div class="card"> map
+        <div class="card"> Hospital Map
             <div class="mapping">
-                <img src="./static/images/image1.png" alt="Medical Illustration" class="img-fluid">
+                <img src="./static/images/locateH.png" alt="Medical Illustration" class="img-fluid">
             </div>
         </div>
-        <div class="card">History</div>
-        <div class="card">Doctors</div>
-        <div class="card">Health Article/Tip</div>
+        <div class="card">History coming soon!
+            <img src="./static/images/record.png" alt="Medical Illustration" class="img-fluid">
+        </div>
+        <div class="card">Doctors coming soon!
+            <img src="./static/images/doc.png" alt="Medical Illustration" class="img-fluid">
+        </div>
+        <div class="card">Health Article/Tip coming soon!
+            <img src="./static/images/books.png" alt="Medical Illustration" class="img-fluid">
+        </div>
     </div>
-    
+    6
     <!-- Scroll buttons -->
     <div class="scroll-buttons">
         <button class="scroll-btn" id="scroll-left">←</button>
@@ -276,20 +282,17 @@
         </div>
     </div>
 
-    <div class="hospital_Map" id="hospitalMap">
-        main man match
-       
+    <div class="hospital_Map" id="hospitalMap">       
         <div id="mapDiv" style="height: 300px;"></div>
     </div>
+
+    <div id="hospitalList" class="hospital-list"></div>
 
     
 
 
 
-    <div id="bold">
-        man
-    </div>
-
+    
     
 
     <footer class="footer">

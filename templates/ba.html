@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAL9I4wgDjfFYYVHywa9zooEJpYSrlGbk&libraries=places"></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+            display: none; /* Initially hidden */
+        }
+        /* Additional styles for chatbox can go here */
+    </style></head><body>
+    <div class="chatbox">
+        <div id="chatboxMessages"></div>
+        <input id="messageInput" type="text" placeholder="Type your message..."/>
+        <button id="sendButton">Send</button>
+    </div>
+    <div id="map"></div>
+
+    <script src="app.js"></script></body></html>
