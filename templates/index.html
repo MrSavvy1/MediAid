@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediAid - Welcome</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.28.5/dist/umd/supabase.min.js"></script>
+</head>
+    <style>
+        body {
+            background-color: #f4f7fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .navbar {
+            background-color: #007bff;
+        }
+        .navbar-brand, .navbar-nav .nav-link {
+            color: white !important;
+        }
+        .hero {
+            background: url('./static/images/index.png') no-repeat center center;
+            background-size: cover;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          
+            text-align: center;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.228); /* Black with 50% opacity */
+            z-index: 1;
+        }
+        .hero > div {
+           position: relative;
+           z-index: 2;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: rgb(15, 117, 219);
+        }
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: whitesmoke;
+            text-shadow: -1px -1px 0 #0c67e5, 1px -1px 0 #0c67e5, -1px 1px 0 #0c67e5, 1px 1px 0 #0c67e5;
+            
+        }
+        .btn-primary, .btn-secondary {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary:hover {
+            background-color: #6c757d;
+        }
+        .modal-content {
+            border-radius: 10px;
+        }
+        .modal-header {
+            border-bottom: none;
+        }
+        .modal-footer {
+            border-top: none;
+        }
+        .features {
+            padding: 50px 0;
+            background-color: #fff;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 20px;
+        }
+        .feature-item img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+        .feature-item h4 {
+            margin-bottom: 10px;
+        }
+        .testimonials {
+            padding: 50px 0;
+            background-color: #e9ecef;
+        }
+        .testimonial-item {
+            text-align: center;
+            padding: 20px;
+        }
+        .testimonial-item img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        .testimonial-item p {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="#">MediAid</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#signInModal">Sign In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#signUpModal">Sign Up</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div>
+            <h1>Welcome to MediAid</h1>
+            <p>Your personal medical assistant</p>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signUpModal">Sign Up</button>
+            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#signInModal">Sign In</button>
+        </div>
+    </div>
+
+    <section class="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 feature-item">
+                    <img src="./static/images/download.png" alt="Feature 1">
+                    <h4>24/7 Support</h4>
+                    <p>Get round-the-clock support from our medical experts.</p>
+                </div>
+                <div class="col-md-4 feature-item">
+                    <img src="./static/images/download2.png" alt="Feature 2">
+                    <h4>Personalized Care</h4>
+                    <p>Receive personalized medical advice tailored to your needs.</p>
+                </div>
+                <div class="col-md-4 feature-item">
+                    <img src="./static/images/download3.png" alt="Feature 3">
+                    <h4>Secure Data</h4>
+                    <p>Your medical data is safe and secure with us.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 testimonial-item">
+                    <img src="./static/images/download4.png" alt="Testimonial 1">
+                    <p>"MediAid has been a lifesaver! The support team is always available and very helpful."</p>
+                    <h5>- John Doe</h5>
+                </div>
+                <div class="col-md-4 testimonial-item">
+                    <img src="./static/images/download1.jpeg" alt="Testimonial 2">
+                    <p>"I love the personalized care I receive from MediAid. They really understand my needs."</p>
+                    <h5>- Jane Smith</h5>
+                </div>
+                <div class="col-md-4 testimonial-item">
+                    <img src="./static/images/download.jpeg" alt="Testimonial 3">
+                    <p>"The security of my medical data is very important to me, and MediAid provides that peace of mind."</p>
+                    <h5>- Sarah Lee</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- Sign Up Modal -->
+     <div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signUpModalLabel">Sign Up</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="signUpForm">
+                        <div class="mb-3">
+                            <label for="signUpName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="signUpName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signUpEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="signUpEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signUpPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="signUpPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign In Modal -->
+    <div class="modal fade" id="signInModal" tabindex="-1" aria-labelledby="signInModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signInModalLabel">Sign In</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="signInForm">
+                        <div class="mb-3">
+                            <label for="signInEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="signInEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signInPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="signInPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module">
+        import { supabase } from './static/supabaseClient.js';
+
+        $(document).ready(function() {
+            $('#signUpForm').on('submit', async function(event) {
+                event.preventDefault();
+                const email = $('#signUpEmail').val();
+                const password = $('#signUpPassword').val();
+                const { user, error } = await supabase.auth.signUp({ email, password });
+                if (error) {
+                    alert('Sign Up Error: ' + error.message);
+                } else {
+                    alert('Sign Up Successful! Please check your email to confirm your account.');
+                    $('#signUpModal').modal('hide');
+                }
+            });
+
+            $('#signInForm').on('submit', async function(event) {
+                event.preventDefault();
+                const email = $('#signInEmail').val();
+                const password = $('#signInPassword').val();
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    alert('Sign In Successful!');
+                    window.location.href = '/base'; // Redirect to base.html
+                } else {
+                    alert('Sign In Error: ' + result.error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
