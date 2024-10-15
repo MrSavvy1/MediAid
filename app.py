@@ -20,7 +20,7 @@ def base():
         return render_template("base.html")
     else:
         return redirect(url_for('index_get'))
-
+#check if user is logged in
 @app.post("/predict")
 def predict():
     if 'user' not in session:
