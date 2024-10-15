@@ -8,7 +8,7 @@ MediAid is a web app medical chatbot that also act as a medical consultant with 
 
 -   Hospital Map - Map feature that connects the user to the nearest hospital or clinic from the user's current loction in case of medical emergency.
 
-Users Medical History - This ia an in-memory feature that stores users medical history information for follow up.
+*   Users Medical History - This ia an in-memory feature that stores users medical history information for follow up.
 
 -   Sign Up - Users have to firt of all sign up into the app.
 
@@ -38,11 +38,11 @@ Users Medical History - This ia an in-memory feature that stores users medical h
 
     https://github.com/MrSavvy1/MediAid.git
 
-2.Navigate to the project directory:
-cd MediAid
+2. Navigate to the project directory:
+   cd MediAid
 
 3. Install dependencies:
 
 # Contributing
 
-    Contributions are welcome! Please fork the repository and submit a pull request.
+Contributions are welcome! Please fork the repository and submit a pull request.
