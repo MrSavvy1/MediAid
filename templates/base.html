@@ -222,6 +222,11 @@
         .scroll-btn:hover {
             background-color: rgba(0, 0, 0, 0.7);
         }
+        @media (max-width: 768px) {
+            .container {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
@@ -234,7 +239,10 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
-                </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>    
+            </ul>
         </div>
     </nav>
 
@@ -261,7 +269,7 @@
             <img src="./static/images/books.png" alt="Medical Illustration" class="img-fluid">
         </div>
     </div>
-    6
+    
     <!-- Scroll buttons -->
     <div class="scroll-buttons">
         <button class="scroll-btn" id="scroll-left">←</button>
