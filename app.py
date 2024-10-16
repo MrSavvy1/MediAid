@@ -68,8 +68,13 @@ def base():
         else:
             return render_template("index.html")
     else:
+<<<<<<< HEAD
         return render_template("index.html")
 
+=======
+        return redirect(url_for('index_get'))
+#check if user is logged in
+>>>>>>> 46a8968451f9c1a035221a1a306536161687f187
 @app.post("/predict")
 def predict():
     #if 'user' not in session:
