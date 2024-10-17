@@ -74,10 +74,6 @@ def base():
     else:
         return render_template("index.html")
 
-<<<<<<< HEAD
-    
-=======
->>>>>>> 682336f4f9c3256164720eebb118cef4b49ff434
 @app.post("/predict")
 def predict():
     #if 'user' not in session:
