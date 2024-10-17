@@ -37,6 +37,9 @@ MediAid is a web app medical chatbot that also act as a medical consultant with 
    cd MediAid
 
 3. Install dependencies:
+   * pip install -r requirements.txt
+4. Run the file:
+* Run python app.py
 
 # Contributing
 
