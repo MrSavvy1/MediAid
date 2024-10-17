@@ -6,15 +6,19 @@ import logging
 import re
 import random
 import string
+from dotenv import load_dotenv
+import os
 
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # Allow all origins for simplicity
-app.secret_key = 'standard_d6f545703000041713307cc8800beb804e766f49d9bf0e30e1d591f2d7165dd6a1850f10e742045e714feb42ea2fa38e99d682d70c22f2e0ec0d5f87d54f9a28db5e6ec39559d8cf02d94751348e832a9cf3c3b081f0ca3e16049fb245afef0d102c241afd7c6f76f73e0f710197f19b1286c27dadede0730914088ecd95d02e'
+app.secret_key = os.getenv("SECRET_KEY")
 
-APPWRITE_ENDPOINT = 'https://cloud.appwrite.io/v1'
-APPWRITE_PROJECT_ID = '670da57a0034f6496f28'
-APPWRITE_API_KEY = 'Edethu'
+APPWRITE_ENDPOINT = os.getenv("APPWRITE_URl")
+APPWRITE_PROJECT_ID = os.getenv("PROJECT_ID_APPWRITE")
+APPWRITE_API_KEY = os.getenv("API_KEY_APPWRITE")
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -70,7 +74,10 @@ def base():
     else:
         return render_template("index.html")
 
+<<<<<<< HEAD
     
+=======
+>>>>>>> 682336f4f9c3256164720eebb118cef4b49ff434
 @app.post("/predict")
 def predict():
     #if 'user' not in session:
