@@ -12,7 +12,7 @@ import webbrowser
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 with open('intents.json', 'r') as json_data:
-    intents = json.load(json_data)
+    intents = json.load(json_data) #loads dataset for response
 
 FILE = "data_rnn.pth"  # Update this file name
 data = torch.load(FILE)
