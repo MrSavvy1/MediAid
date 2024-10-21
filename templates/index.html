@@ -258,6 +258,7 @@
                 .setProject('670da57a0034f6496f28'); // Your project ID
 
             const account = new Appwrite.Account(client);
+            
 
             document.getElementById('signUpForm').addEventListener('submit', async function(event) {
                 event.preventDefault();
@@ -297,7 +298,7 @@
             event.preventDefault();
             const email = document.getElementById('signInEmail').value.trim();
             const password = document.getElementById('signInPassword').value.trim();
-            console.error('Sign Innot in try');
+           
 
             try {
                 console.error('Sign In is in try section now');
