@@ -6,32 +6,54 @@ import logging
 import re
 import random
 import string
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 
-# Load environment variables from .env file
+try:
+    from appwrite.client import Client
+except ImportError:
+    print("Error: Failed to import 'appwrite.client'. Make sure you have installed the 'appwrite' package.")
+from appwrite.services.users import Users
+
+
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})  # Allow all origins for simplicity
+CORS(app, resources={r"/*": {"origins": "*"}})  
 app.secret_key = os.getenv("SECRET_KEY")
 
-APPWRITE_ENDPOINT = os.getenv("APPWRITE_URl")
-APPWRITE_PROJECT_ID = os.getenv("PROJECT_ID_APPWRITE")
-APPWRITE_API_KEY = os.getenv("API_KEY_APPWRITE")
+# Initialize Appwrite client
+client = Client()
 
-# Configure logging
-logging.basicConfig(level=logging.DEBUG)
+# Set endpoint, project, and key using environment variables
+APPWRITE_ENDPOINT = os.getenv('APPWRITE_URl')
+APPWRITE_PROJECT_ID = os.getenv('PROJECT_ID_APPWRITE')
+APPWRITE_API_KEY = os.getenv('API_KEY_APPWRITE')
+
+client.set_endpoint(APPWRITE_ENDPOINT)
+client.set_project(APPWRITE_PROJECT_ID)
+client.set_key(APPWRITE_API_KEY)
+users_service = Users(client)
 
 def generate_user_id(username):
     random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
     user_id = f"{username}_{random_string}"
-    user_id = re.sub(r'[^a-zA-Z0-9._-]', '', user_id)  # Remove invalid characters
-    return user_id[:36]  # Ensure the user_id is at most 36 characters long
+    user_id = re.sub(r'[^a-zA-Z0-9._-]', '', user_id)  
+    return user_id[:36] 
 
 @app.get("/")
 def index_get():
     return render_template("index.html")
+
+@app.route('/users', methods=['GET'])
+def get_users():
+    try:
+        result = users_service.list()
+        return jsonify(result), 200
+    except Exception as e:
+        logging.error(f"Error fetching users: {e}")
+        return jsonify({"error": str(e)}), 500
+
 
 @app.route('/store-session', methods=['POST'])
 def store_session():
@@ -56,28 +78,19 @@ def store_session():
         return jsonify({"message": "Session stored successfully!"}), 200
     except Exception as e:
         return jsonify({"message": str(e)}), 500
-
 @app.route('/base')
 def base():
     
-    if 'user' in session:
-        user = session['user']
+    if session:
+        
         logging.debug(f"Response status: {session}")
-        stored_email = user.get('email')
-        form_email = user.get('formEmail')
-
-        # Logic to check if the email from the form matches the stored email
-        if stored_email == form_email:
-            return render_template("base.html")
-        else:
-            return render_template("index.html")
+        
+        return render_template("base.html")
     else:
-        return render_template("index.html")
+        return render_template("base.html")
 
 @app.post("/predict")
 def predict():
-    #if 'user' not in session:
-     #   return jsonify({"error": "Unauthorized"}), 401
     text = request.get_json().get("message")
     response = get_response(text)
     message = {"answer": response}
