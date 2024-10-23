@@ -38,6 +38,9 @@ MediAid is a web app medical chatbot that also act as a medical consultant with 
 
 3. Install dependencies:
    * pip install -r requirements.txt
+   * you may need to install appwrite locally (pip install appwrite)
+   * you may need to install .dotenv (pip install python-dotenv)
+   * you may need to have a dev tool install (vistual studio build tools, etc)
 4. Run the file:
 * Run python app.py
 
