@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session as flask_session
 from flask_cors import CORS
 from chat import get_response
 import requests
@@ -15,18 +15,21 @@ except ImportError:
     print("Error: Failed to import 'appwrite.client'. Make sure you have installed the 'appwrite' package.")
 from appwrite.services.users import Users
 
-
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})  
+CORS(app, resources={r"/*": {"origins": "*"}})
 app.secret_key = os.getenv("SECRET_KEY")
+
+app.secret_key = os.getenv("SECRET_KEY", ''.join(random.choices(string.ascii_letters + string.digits, k=24)))
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Initialize Appwrite client
 client = Client()
 
 # Set endpoint, project, and key using environment variables
-APPWRITE_ENDPOINT = os.getenv('APPWRITE_URl')
+APPWRITE_ENDPOINT = os.getenv('APPWRITE_URL')
 APPWRITE_PROJECT_ID = os.getenv('PROJECT_ID_APPWRITE')
 APPWRITE_API_KEY = os.getenv('API_KEY_APPWRITE')
 
@@ -38,8 +41,8 @@ users_service = Users(client)
 def generate_user_id(username):
     random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
     user_id = f"{username}_{random_string}"
-    user_id = re.sub(r'[^a-zA-Z0-9._-]', '', user_id)  
-    return user_id[:36] 
+    user_id = re.sub(r'[^a-zA-Z0-9._-]', '', user_id)
+    return user_id[:36]
 
 @app.get("/")
 def index_get():
@@ -54,14 +57,12 @@ def get_users():
         logging.error(f"Error fetching users: {e}")
         return jsonify({"error": str(e)}), 500
 
-
 @app.route('/store-session', methods=['POST'])
 def store_session():
     data = request.get_json()
-
     try:
         # Store session data in Flask's session object
-        session['user'] = {
+        flask_session['user'] = {
             'id': data.get('id'),
             'createdAt': data.get('createdAt'),
             'updatedAt': data.get('updatedAt'),
@@ -74,20 +75,21 @@ def store_session():
             'registration': data.get('registration'),
             'status': data.get('status')
         }
-
+        logging.debug(f"Session stored: {flask_session['user']}")
         return jsonify({"message": "Session stored successfully!"}), 200
     except Exception as e:
+        logging.error(f"Error storing session: {e}")
         return jsonify({"message": str(e)}), 500
+
 @app.route('/base')
 def base():
-    
-    if session:
-        
-        logging.debug(f"Response status: {session}")
-        
+    logging.debug(f"Session data: {flask_session}")
+    if 'user' in flask_session:
+        user = flask_session['user']
+        logging.debug(f"User session data: {user}")
         return render_template("base.html")
     else:
-        return render_template("base.html")
+        return render_template("index.html")
 
 @app.post("/predict")
 def predict():
@@ -145,14 +147,14 @@ def login():
     logging.debug(f"Response content: {response.json()}")
 
     if response.status_code == 201:
-        session['user'] = response.json()
+        flask_session['user'] = response.json()
         return jsonify({"message": "Login successful"})
     else:
         return jsonify({"error": response.json().get('message', 'Login failed')}), 401
 
 @app.route('/logout')
 def logout():
-    session.pop('user', None)
+    flask_session.pop('user', None)
     return redirect(url_for('index_get'))
 
 if __name__ == "__main__":
