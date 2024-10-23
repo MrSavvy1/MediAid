@@ -133,7 +133,7 @@
             <p>Your personal medical assistant</p>
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signUpModal">Sign Up</button>
             <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#signInModal">Sign In</button>
-            <button class="btn btn-info" id="fetchUsersBtn">Fetch Users</button>
+            
         </div>
     </div>
 
@@ -311,20 +311,40 @@
                 if (usersEmails.includes(email)) {
                     console.log('in  users')
                     // Check if the email is in the active session
+                    const response = await fetch('/active-session');
+                    const activeSession = await response.json();
+                    if (response.ok && activeSession && activeSession.email) {
+                       
+                       console.log(activeSession);
+                       console.log(activeSession.email);
+                       console.log(email);
+                       if (activeSession.email === email) {
+                       window.location.href = '/base'; // Redirect to base.html
+                       } else {
+                            console.error('Email does not match the active session');
+                            console.log('deleting existing session');
+                            try {
+                                const sessionId = activeSession.$id;
+                                await account.deleteSession(sessionId);
+                            } catch (error) {
+                                console.error('Error deleting session:', error);
+                            }
+                        }
+                       
+                    } else {
+
+                    /*
                     const activeSession = await account.get();
                     console.log(activeSession)
                     if (activeSession.email === email) {
                         window.location.href = '/base'; // Redirect to base.html
                     } else {
+                    */
                     // Create a new session
                         // Delete existing session
-                        console.log('deleting existing session');
-                        try {
-                            await account.deleteSession('current');
-                        } catch (error) {
-                            console.error('Error deleting session:', error);
-                        }
-
+                        
+                        //const sessionId = activeSession.$id;
+                        await account.deleteSession('current');
                         const session = await account.createEmailSession(email, password);
                         if (session) {
                             const response = await fetch('/store-session', {
@@ -369,17 +389,6 @@
             }
         });
            
-
-        // Fetch users and log to console
-        document.getElementById('fetchUsersBtn').addEventListener('click', async function() {
-            try {
-                const response = await fetch('/users');
-                const users = await response.json();
-                console.log(users);
-            } catch (error) {
-                console.error('Error fetching users:', error);
-            }
-        });
     });
 
     // Bootstrap modal handling

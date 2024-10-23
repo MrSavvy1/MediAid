@@ -56,6 +56,19 @@ def get_users():
     except Exception as e:
         logging.error(f"Error fetching users: {e}")
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/active-session', methods=['GET'])
+def get_active_session():
+    try:
+        # Assuming you have stored the session in Flask's session object
+        if 'user' in flask_session:
+            user_session = flask_session['user']
+            return jsonify(user_session), 200
+        else:
+            return jsonify({"error": "No active session found"}), 404
+    except Exception as e:
+        logging.error(f"Error fetching active session: {e}")
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/store-session', methods=['POST'])
 def store_session():
