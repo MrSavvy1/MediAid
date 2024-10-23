@@ -312,7 +312,7 @@
                     console.log('in  users')
                     // Check if the email is in the active session
                     const activeSession = await account.get();
-                    console.log(email)
+                    console.log(activeSession)
                     if (activeSession.email === email) {
                         window.location.href = '/base'; // Redirect to base.html
                     } else {
@@ -346,6 +346,7 @@
                                     status: session.status
                                 })
                             });
+                            console.log(session)
                             if (response.ok) {
                                 window.location.href = '/base'; // Redirect to base.html
                             } else {
@@ -355,6 +356,10 @@
                             throw new Error('Failed to create session.');
                         }
                     }
+                }
+                else {
+                    console.log(session)
+                    window.location.href = '/base';
                 }
             }
             catch (error) {
